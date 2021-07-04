@@ -20,21 +20,25 @@ defmodule TestApi.AccountsTest do
 
       users
     end
-
+   
     test "list_users/0 returns all users" do
-      users = users_fixture()
-      assert Accounts.list_users() == [users]
+      assert {:ok, user} = Accounts.create_users(@create_attrs)
+      users = Accounts.list_users()
+      created_user = List.first(users)
+      assert created_user.email == user.email
+      assert created_user.password == nil
     end
 
     test "get_users!/1 returns the users with given id" do
-      users = users_fixture()
-      assert Accounts.get_users!(users.id) == users
+      assert {:ok, user} = Accounts.create_users(@create_attrs)
+      assert user.email == "email@test.com"
+      assert user.password == "some password"
     end
 
     test "create_users/1 with valid data creates a users" do
       assert {:ok, %Users{} = users} = Accounts.create_users(@create_attrs)
       assert users.email == "email@test.com"
-      assert users.password  == nil
+      assert users.password  == "some password"
     end
 
     test "create_users/1 with invalid data returns error changeset" do
