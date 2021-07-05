@@ -1,19 +1,19 @@
-defmodule TestApiWeb.UsersController do
+defmodule TestApiWeb.UserController do
   use TestApiWeb, :controller
 
-  alias TestApi.Accounts
-  alias TestApi.Accounts.Users
+  alias TestApi.Account
+  alias TestApi.Account.User
   alias TestApiWeb.Auth.Guardian
 
   action_fallback TestApiWeb.FallbackController
 
   def index(conn, _params) do
-    users = Accounts.list_users()
+    users = Account.list_users()
     render(conn, "index.json", users: users)
   end
   
   def create(conn, %{"user" => user_params}) do
-  with {:ok, %Users{} = user} <- Accounts.create_users(user_params),
+  with {:ok, %User{} = user} <- Account.create_user(user_params),
   {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
     conn
     |> put_resp_cookie("token", token)
@@ -30,22 +30,22 @@ defmodule TestApiWeb.UsersController do
   end
 
   def show(conn, %{"id" => id}) do
-    users = Accounts.get_users!(id)
-    render(conn, "show.json", users: users)
+    user = Account.get_user!(id)
+    render(conn, "show.json", user: user)
   end
 
-  def update(conn, %{"id" => id, "users" => users_params}) do
-    users = Accounts.get_users!(id)
+  def update(conn, %{"id" => id, "user" => user_params}) do
+    user = Account.get_user!(id)
 
-    with {:ok, %Users{} = users} <- Accounts.update_users(users, users_params) do
-      render(conn, "show.json", users: users)
+    with {:ok, %User{} = user} <- Account.update_user(user, user_params) do
+      render(conn, "show.json", user: user)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    users = Accounts.get_users!(id)
+    user = Account.get_user!(id)
 
-    with {:ok, %Users{}} <- Accounts.delete_users(users) do
+    with {:ok, %User{}} <- Account.delete_user(user) do
       send_resp(conn, :no_content, "")
     end
   end

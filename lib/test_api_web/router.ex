@@ -5,10 +5,10 @@ defmodule TestApiWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/api", TestApiWeb do
+  scope "/api/user", TestApiWeb do
     pipe_through(:api)
-    post "/users/signup", UsersController, :create
-    post "/users/signin", UsersController, :signin
+    post "/signup", UserController, :create
+    post "/signin", UserController, :signin
   end
 
   pipeline :browser do

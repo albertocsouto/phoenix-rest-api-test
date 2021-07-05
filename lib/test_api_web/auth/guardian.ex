@@ -1,7 +1,7 @@
 defmodule TestApiWeb.Auth.Guardian do
   use Guardian, otp_app: :test_api
 
-  alias TestApi.Accounts
+  alias TestApi.Account
 
   def subject_for_token(user, _claims) do
     sub = to_string(user.id)
@@ -10,12 +10,12 @@ defmodule TestApiWeb.Auth.Guardian do
 
   def resource_from_claims(claims) do
     id = claims["sub"]
-    resource = Accounts.get_users!(id)
+    resource = Account.get_user!(id)
     {:ok, resource}
   end
 
   def authenticate(email, password) do
-    with {:ok, user} <- Accounts.get_by_email(email) do
+    with {:ok, user} <- Account.get_user_by_email(email) do
       case validate_password(password, user.hash_pass) do
         true ->
           create_token(user)

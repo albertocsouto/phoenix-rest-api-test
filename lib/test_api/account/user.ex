@@ -1,8 +1,8 @@
-defmodule TestApi.Accounts.Users do
+defmodule TestApi.Account.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "users" do
+  schema "user" do
     field :email, :string
     field :password, :string, virtual: true
     field :hash_pass, :string
@@ -13,8 +13,8 @@ defmodule TestApi.Accounts.Users do
   end
 
   @doc false
-  def changeset(users, attrs) do
-    users
+  def changeset(user, attrs) do
+    user
     |> cast(attrs, [:email, :password, :name, :lastname, :phone])
     |> validate_required([:email, :password])
     |> validate_format(:email, ~r/^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/)
