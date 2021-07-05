@@ -21,6 +21,14 @@ defmodule TestApiWeb.UsersController do
     end
   end
 
+  def signin(conn, %{"email" => email, "password" => password}) do
+    with {:ok, user, token} <- Guardian.authenticate(email, password) do
+      conn
+      |> put_resp_cookie("token", token)
+      |> send_resp(:created, "")
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     users = Accounts.get_users!(id)
     render(conn, "show.json", users: users)

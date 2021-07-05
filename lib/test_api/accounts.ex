@@ -36,7 +36,19 @@ defmodule TestApi.Accounts do
 
   """
   def get_users!(id), do: Repo.get!(Users, id)
-
+  
+  @doc """
+  Find user by email
+  """
+  def get_by_email(email) do
+    case Repo.get_by(Users, email: email) do
+      nil ->
+        {:error, :not_found}
+      user ->
+        {:ok, user}
+    end
+  end
+  
   @doc """
   Creates a users.
 
