@@ -1,8 +1,7 @@
 defmodule TestApiWeb.UsersControllerTest do
   use TestApiWeb.ConnCase
 
-  alias TestApi.Account
-  alias TestApi.Account.User
+  alias TestApi.Accounts
 
   @create_attrs %{
     email: "email@test.com",
@@ -14,7 +13,7 @@ defmodule TestApiWeb.UsersControllerTest do
   }
 
   def fixture(:user) do
-    {:ok, user} = Account.create_user(@create_attrs)
+    {:ok, user} = Accounts.create_user(@create_attrs)
     user
   end
 

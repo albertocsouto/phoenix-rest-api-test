@@ -1,28 +1,28 @@
 defmodule TestApiWeb.UserController do
   use TestApiWeb, :controller
 
-  alias TestApi.Account
-  alias TestApi.Account.User
+  alias TestApi.Accounts
+  alias TestApi.Accounts.User
   alias TestApiWeb.Auth.Guardian
 
-  action_fallback TestApiWeb.FallbackController
+  action_fallback(TestApiWeb.FallbackController)
 
   def index(conn, _params) do
-    users = Account.list_users()
+    users = Accounts.list_users()
     render(conn, "index.json", users: users)
   end
-  
+
   def create(conn, %{"user" => user_params}) do
-  with {:ok, %User{} = user} <- Account.create_user(user_params),
-  {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
-    conn
-    |> put_resp_cookie("token", token)
-    |> send_resp(:created, "")
+    with {:ok, %User{} = user} <- Accounts.create_user(user_params),
+         {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
+      conn
+      |> put_resp_cookie("token", token)
+      |> send_resp(:created, "")
     end
   end
 
   def signin(conn, %{"email" => email, "password" => password}) do
-    with {:ok, user, token} <- Guardian.authenticate(email, password) do
+    with {:ok, _, token} <- Guardian.authenticate(email, password) do
       conn
       |> put_resp_cookie("token", token)
       |> send_resp(:created, "")
@@ -30,22 +30,22 @@ defmodule TestApiWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Account.get_user!(id)
+    user = Accounts.get_user!(id)
     render(conn, "show.json", user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Account.get_user!(id)
+    user = Accounts.get_user!(id)
 
-    with {:ok, %User{} = user} <- Account.update_user(user, user_params) do
+    with {:ok, %User{} = user} <- Accounts.update_user(user, user_params) do
       render(conn, "show.json", user: user)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    user = Account.get_user!(id)
+    user = Accounts.get_user!(id)
 
-    with {:ok, %User{}} <- Account.delete_user(user) do
+    with {:ok, %User{}} <- Accounts.delete_user(user) do
       send_resp(conn, :no_content, "")
     end
   end

@@ -1,4 +1,4 @@
-defmodule TestApi.Account do
+defmodule TestApi.Accounts do
   @moduledoc """
   The Account context.
   """
@@ -6,7 +6,7 @@ defmodule TestApi.Account do
   import Ecto.Query, warn: false
   alias TestApi.Repo
 
-  alias TestApi.Account.User
+  alias TestApi.Accounts.User
 
   @doc """
   Returns the list of users.
@@ -35,8 +35,9 @@ defmodule TestApi.Account do
       ** (Ecto.NoResultsError)
 
   """
+
   def get_user!(id), do: Repo.get!(User, id)
-  
+
   @doc """
   Find user by email
   """
@@ -44,13 +45,14 @@ defmodule TestApi.Account do
     case Repo.get_by(User, email: email) do
       nil ->
         {:error, :not_found}
+
       user ->
         {:ok, user}
     end
   end
-  
+
   @doc """
-  Creates a users.
+  Creates an user.
 
   ## Examples
 
