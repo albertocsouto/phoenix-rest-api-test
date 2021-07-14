@@ -2,55 +2,59 @@ defmodule TestApi.GamesTest do
   use TestApi.DataCase
 
   alias TestApi.Games
+  alias TestApi.Games.Quiniela
+  alias TestApi.Games.Quiniela.Match
 
   describe "quiniela" do
+    @create_match %{
+      date: Date.utc_today(),
+      team1: "Madrid",
+      team2: "Barcelona",
+      team1_goals: 0,
+      team2_goals: 0,
+      result: "X",
+      played: true
+    }
     @create_attrs %{
       date: Date.utc_today(),
-      match1: ["1"],
-      match2: ["1"],
-      match3: ["1"],
-      match4: ["1"],
-      match5: ["1"],
-      match6: ["1"],
-      match7: ["1"],
-      match8: ["1"],
-      match9: ["1"],
-      match10: ["1"],
-      match11: ["1"],
-      match12: ["1"],
-      match13: ["1"],
-      match14: ["1"],
-      special1: ["1"],
-      special2: ["1"]
+      matches: [
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match,
+        @create_match
+      ]
     }
     @invalid_attrs %{
       date: Date.utc_today(),
-      match1: ["A"],
-      match2: ["B"],
-      match3: ["C"],
-      match4: ["D"],
-      match5: ["E"],
-      match6: ["F"],
-      match7: ["G"],
-      match8: ["H"],
-      match9: ["I"],
-      match10: ["J"],
-      match11: ["K"],
-      match12: ["L"],
-      match13: ["M"],
-      match14: ["N"],
-      special1: ["3"],
-      special2: ["4"]
+      matches: [@create_match]
     }
 
     test "list_quinielas/0 returns all quinielas" do
-      assert {:ok, quiniela} = Games.create_quiniela(@create_attrs)
+      {:ok, quiniela} = Games.create_quiniela(@create_attrs)
       quinielas = Games.list_quinielas()
       assert [quiniela] == quinielas
+      assert Enum.count(quiniela.matches) == 16
+      [first_quiniela | _] = quinielas
+      assert Enum.count(quiniela.matches) == 16
     end
 
-    # FIXME: This test should pass when data validation added
-    test "create_quiniela/1 with invalid data returns error changeset" do
+    test "create_quiniela/1 valid attrs" do
+      assert {:ok, %Quiniela{} = quiniela} = Games.create_quiniela(@create_attrs)
+    end
+
+    test "create_quiniela/1 invalid attrs" do
       assert {:error, %Ecto.Changeset{}} = Games.create_quiniela(@invalid_attrs)
     end
   end

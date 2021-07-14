@@ -7,6 +7,7 @@ defmodule TestApi.Games do
   alias TestApi.Repo
 
   alias TestApi.Games.Quiniela
+  alias TestApi.Games.Quiniela.Match
 
   @doc """
   Returns the list of quinielas.
@@ -17,10 +18,13 @@ defmodule TestApi.Games do
       [%Quiniela{}, ...]
 
   """
-  def list_quinielas do
-    Repo.all(Quiniela)
+  def list_quinielas() do
+    Ecto.Query.from(q in Quiniela,
+      preload: [:matches]
+    )
+    |> Repo.all()
   end
-  
+
   @doc """
   Creates a quiniela.
 
@@ -36,9 +40,7 @@ defmodule TestApi.Games do
   def create_quiniela(attrs \\ %{}) do
     %Quiniela{}
     |> Quiniela.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:matches, with: &Match.changeset/2)
     |> Repo.insert()
   end
-
 end
-
-
