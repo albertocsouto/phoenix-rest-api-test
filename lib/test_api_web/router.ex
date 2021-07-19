@@ -7,8 +7,13 @@ defmodule TestApiWeb.Router do
 
   scope "/api/user", TestApiWeb do
     pipe_through(:api)
-    post "/signup", UserController, :create
-    post "/signin", UserController, :signin
+    post("/signup", UserController, :create)
+    post("/signin", UserController, :signin)
+  end
+
+  scope "/api/game", TestApiWeb do
+    pipe_through([:api])
+    resources("/quiniela", GamesController, except: [:new, :edit])
   end
 
   pipeline :browser do

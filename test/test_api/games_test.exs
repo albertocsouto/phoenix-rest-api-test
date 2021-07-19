@@ -3,7 +3,6 @@ defmodule TestApi.GamesTest do
 
   alias TestApi.Games
   alias TestApi.Games.Quiniela
-  alias TestApi.Games.Quiniela.Match
 
   describe "quiniela" do
     @create_match %{
@@ -47,11 +46,11 @@ defmodule TestApi.GamesTest do
       assert [quiniela] == quinielas
       assert Enum.count(quiniela.matches) == 16
       [first_quiniela | _] = quinielas
-      assert Enum.count(quiniela.matches) == 16
+      assert Enum.count(first_quiniela.matches) == 16
     end
 
     test "create_quiniela/1 valid attrs" do
-      assert {:ok, %Quiniela{} = quiniela} = Games.create_quiniela(@create_attrs)
+      assert {:ok, %Quiniela{} = _quiniela} = Games.create_quiniela(@create_attrs)
     end
 
     test "create_quiniela/1 invalid attrs" do
