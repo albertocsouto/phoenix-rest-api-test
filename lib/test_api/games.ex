@@ -25,6 +25,14 @@ defmodule TestApi.Games do
     |> Repo.all()
   end
 
+  def list_quinielas(season) do
+    Ecto.Query.from(q in Quiniela,
+      where: q.season == ^season,
+      preload: [:matches]
+    )
+    |> Repo.all()
+  end
+
   def get_quiniela(id) do
     Ecto.Query.from(q in Quiniela,
       where: q.id == ^id,
@@ -34,6 +42,14 @@ defmodule TestApi.Games do
     |> List.first()
   end
 
+  def get_quiniela(season, match_number) do
+    Ecto.Query.from(q in Quiniela,
+      where: q.season == ^season and q.match_number == ^match_number,
+      preload: [:matches]
+    )
+    |> Repo.all()
+    |> List.first()
+  end
 
   @doc """
   Creates a quiniela.

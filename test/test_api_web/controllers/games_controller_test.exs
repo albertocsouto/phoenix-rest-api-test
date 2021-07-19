@@ -14,6 +14,8 @@ defmodule TestApiWeb.GamesControllerTest do
   }
   @create_attrs %{
     date: Date.utc_today(),
+    season: 2020,
+    match_number: 1,
     matches: [
       @create_match,
       @create_match,

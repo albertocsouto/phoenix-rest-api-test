@@ -14,6 +14,8 @@ defmodule TestApiWeb.GamesView do
   def render("quiniela.json", %{quiniela: quiniela}) do
     %{
       id: quiniela.id,
+      season: quiniela.season,
+      match_number: quiniela.match_number,
       date: quiniela.date,
       matches: render_many(quiniela.matches, MatchView, "match.json")
     }

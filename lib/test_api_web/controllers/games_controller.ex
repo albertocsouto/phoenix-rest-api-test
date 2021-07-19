@@ -6,6 +6,16 @@ defmodule TestApiWeb.GamesController do
 
   action_fallback(TestApiWeb.FallbackController)
 
+  def index(conn, %{"season" => season, "match_number" => match_number} = _params) do
+    quiniela = Games.get_quiniela(season, match_number)
+    render(conn, "show.json", quiniela: quiniela)
+  end
+
+  def index(conn, %{"season" => season} = _params) do
+    quinielas = Games.list_quinielas(season)
+    render(conn, "index.json", quinielas: quinielas)
+  end
+
   def index(conn, _params) do
     quinielas = Games.list_quinielas()
     render(conn, "index.json", quinielas: quinielas)

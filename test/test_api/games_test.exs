@@ -16,6 +16,8 @@ defmodule TestApi.GamesTest do
     }
     @create_attrs %{
       date: Date.utc_today(),
+      season: 2020,
+      match_number: 1,
       matches: [
         @create_match,
         @create_match,
@@ -47,6 +49,21 @@ defmodule TestApi.GamesTest do
       assert Enum.count(quiniela.matches) == 16
       [first_quiniela | _] = quinielas
       assert Enum.count(first_quiniela.matches) == 16
+    end
+
+    test "list_quinielas/1 returns quinielas by season" do
+      {:ok, quiniela} = Games.create_quiniela(@create_attrs)
+      quinielas = Games.list_quinielas(2020)
+      assert [quiniela] == quinielas
+      assert Enum.count(quiniela.matches) == 16
+      [first_quiniela | _] = quinielas
+      assert Enum.count(first_quiniela.matches) == 16
+    end
+
+    test "get_quiniela/2 returns quiniela by season and match_number" do
+      {:ok, quiniela} = Games.create_quiniela(@create_attrs)
+      found = Games.get_quiniela(2020, 1)
+      assert quiniela == found
     end
 
     test "create_quiniela/1 valid attrs" do
