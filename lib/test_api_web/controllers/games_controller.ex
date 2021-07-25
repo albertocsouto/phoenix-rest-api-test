@@ -6,8 +6,8 @@ defmodule TestApiWeb.GamesController do
 
   action_fallback(TestApiWeb.FallbackController)
 
-  def index(conn, %{"season" => season, "match_number" => match_number} = _params) do
-    quiniela = Games.get_quiniela(season, match_number)
+  def index(conn, %{"season" => season, "game_number" => game_number} = _params) do
+    quiniela = Games.get_quiniela(season, game_number)
     render(conn, "show.json", quiniela: quiniela)
   end
 
@@ -23,7 +23,11 @@ defmodule TestApiWeb.GamesController do
 
   def show(conn, %{"id" => id}) do
     quiniela = Games.get_quiniela(id)
-    render(conn, "show.json", quiniela: quiniela)
+
+    case quiniela do
+      nil -> send_resp(conn, :not_found, "")
+      _ -> render(conn, "show.json", quiniela: quiniela)
+    end
   end
 
   def create(conn, %{"quiniela" => quiniela_params}) do

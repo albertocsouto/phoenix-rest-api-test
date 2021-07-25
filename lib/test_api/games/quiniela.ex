@@ -7,7 +7,7 @@ defmodule TestApi.Games.Quiniela do
   schema "quiniela" do
     field(:date, :date)
     field(:season, :integer)
-    field(:match_number, :integer)
+    field(:game_number, :integer)
     has_many(:matches, Match)
     timestamps()
   end
@@ -18,12 +18,12 @@ defmodule TestApi.Games.Quiniela do
     |> cast(attrs, [
       :date,
       :season,
-      :match_number
+      :game_number
     ])
     |> validate_required([
       :date,
       :season,
-      :match_number
+      :game_number
     ])
     |> cast_assoc(:matches, required: true)
     |> validate_length(:matches, min: 16, max: 16)

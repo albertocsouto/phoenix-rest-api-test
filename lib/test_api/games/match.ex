@@ -5,12 +5,13 @@ defmodule TestApi.Games.Quiniela.Match do
 
   schema "match" do
     field(:date, :date)
-    field(:team1, :string) 
+    field(:team1, :string)
     field(:team2, :string)
     field(:team1_goals, :integer)
-    field(:team2_goals, :integer) 
+    field(:team2_goals, :integer)
     field(:result, :string)
     field(:played, :boolean)
+    field(:isSpecial, :boolean, default: false)
     belongs_to :quiniela, TestApi.Games.Quiniela
     timestamps()
   end
@@ -25,7 +26,8 @@ defmodule TestApi.Games.Quiniela.Match do
       :team1_goals,
       :team2_goals,
       :result,
-      :played
+      :played,
+      :isSpecial
     ])
     |> validate_required([
       :date,
@@ -34,7 +36,8 @@ defmodule TestApi.Games.Quiniela.Match do
       :team1_goals,
       :team2_goals,
       :result,
-      :played
+      :played,
+      :isSpecial
     ])
   end
 end

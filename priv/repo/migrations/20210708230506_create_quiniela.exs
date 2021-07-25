@@ -7,8 +7,10 @@ defmodule TestApi.Repo.Migrations.CreateQuiniela do
     create table(:quiniela) do
       add(:date, :date)
       add(:season, :integer)
-      add(:match_number, :integer)
+      add(:game_number, :integer)
       timestamps()
     end
+
+    create(index(:quiniela, [:season, :game_number]))
   end
 end

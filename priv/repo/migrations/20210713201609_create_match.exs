@@ -10,6 +10,7 @@ defmodule TestApi.Repo.Migrations.CreateMatch do
       add(:team2_goals, :integer)
       add(:result, :string)
       add(:played, :boolean)
+      add(:isSpecial, :boolean)
       add(:quiniela_id, references(:quiniela))
 
       timestamps()

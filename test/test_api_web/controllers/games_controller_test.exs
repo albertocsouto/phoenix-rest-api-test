@@ -10,12 +10,25 @@ defmodule TestApiWeb.GamesControllerTest do
     team1_goals: 0,
     team2_goals: 0,
     result: "X",
-    played: true
+    played: true,
+    isSpecial: false
   }
+
+  @create_special_match %{
+    date: Date.utc_today(),
+    team1: "Madrid",
+    team2: "Barcelona",
+    team1_goals: 0,
+    team2_goals: 0,
+    result: "X",
+    played: true,
+    isSpecial: true
+  }
+
   @create_attrs %{
     date: Date.utc_today(),
     season: 2020,
-    match_number: 1,
+    game_number: 1,
     matches: [
       @create_match,
       @create_match,
@@ -31,8 +44,8 @@ defmodule TestApiWeb.GamesControllerTest do
       @create_match,
       @create_match,
       @create_match,
-      @create_match,
-      @create_match
+      @create_special_match,
+      @create_special_match
     ]
   }
   @invalid_attrs %{

@@ -42,9 +42,9 @@ defmodule TestApi.Games do
     |> List.first()
   end
 
-  def get_quiniela(season, match_number) do
+  def get_quiniela(season, game_number) do
     Ecto.Query.from(q in Quiniela,
-      where: q.season == ^season and q.match_number == ^match_number,
+      where: q.season == ^season and q.game_number == ^game_number,
       preload: [:matches]
     )
     |> Repo.all()

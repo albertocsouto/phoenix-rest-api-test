@@ -14,7 +14,8 @@ defmodule TestApiWeb.MatchView do
       id: match.id,
       date: match.date,
       team1: match.team1,
-      team2: match.team2
+      team2: match.team2,
+      isSpecial: match.isSpecial
     }
   end
 end

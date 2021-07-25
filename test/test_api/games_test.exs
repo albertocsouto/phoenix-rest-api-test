@@ -12,12 +12,23 @@ defmodule TestApi.GamesTest do
       team1_goals: 0,
       team2_goals: 0,
       result: "X",
-      played: true
+      played: true,
+      isSpecial: false
+    }
+    @create_special_match %{
+      date: Date.utc_today(),
+      team1: "Madrid",
+      team2: "Barcelona",
+      team1_goals: 0,
+      team2_goals: 0,
+      result: "X",
+      played: true,
+      isSpecial: true
     }
     @create_attrs %{
       date: Date.utc_today(),
       season: 2020,
-      match_number: 1,
+      game_number: 1,
       matches: [
         @create_match,
         @create_match,
@@ -33,8 +44,8 @@ defmodule TestApi.GamesTest do
         @create_match,
         @create_match,
         @create_match,
-        @create_match,
-        @create_match
+        @create_special_match,
+        @create_special_match
       ]
     }
     @invalid_attrs %{
@@ -60,7 +71,7 @@ defmodule TestApi.GamesTest do
       assert Enum.count(first_quiniela.matches) == 16
     end
 
-    test "get_quiniela/2 returns quiniela by season and match_number" do
+    test "get_quiniela/2 returns quiniela by season and game_number" do
       {:ok, quiniela} = Games.create_quiniela(@create_attrs)
       found = Games.get_quiniela(2020, 1)
       assert quiniela == found
