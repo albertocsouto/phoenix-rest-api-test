@@ -8,10 +8,7 @@ otp_release:
 
 env:
   - MIX_ENV=test
-
-addons:
-  postgresql: '13.3'
-
+  
 services:
   - 'postgresql'
 
@@ -19,7 +16,7 @@ before_script:
   - cp config/travis.exs config/test.exs
   - mix do ecto.create, ecto.migrate
 
-  cache:
+cache:
   directories:
     - _build
     - deps
