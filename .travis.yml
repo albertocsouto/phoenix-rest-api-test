@@ -8,7 +8,10 @@ otp_release:
 
 env:
   - MIX_ENV=test
-  
+
+addons:
+  postgresql: '13.3'
+
 services:
   - 'postgresql'
 
