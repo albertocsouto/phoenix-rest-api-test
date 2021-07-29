@@ -1,5 +1,7 @@
 # TestApi
 
+[![Build Status](https://www.travis-ci.com/albertocsouto/phoenix-rest-api-test.svg?branch=main)](https://www.travis-ci.com/albertocsouto/phoenix-rest-api-test)
+
 Simple hacking with Elixir and Phoenix
 
 To start your Phoenix server:
