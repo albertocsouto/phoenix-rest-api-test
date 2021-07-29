@@ -6,20 +6,23 @@ elixir:
 otp_release:
   - '24.0'
 
-env:
-  - MIX_ENV=test
-
-addons:
-  postgresql: '13.3'
-
 services:
   - 'postgresql'
 
-before_script:
-  - cp config/travis.exs config/test.exs
-  - mix do ecto.create, ecto.migrate
+addons:
+  postgresql: "13"
+  apt:
+    packages:
+    - postgresql-13
+    - postgresql-client-13
+env:
+  global:
+  - PGPORT=5433
+  - PGUSER=travis
 
-cache:
-  directories:
-    - _build
-    - deps
+before_script:
+  - psql --version
+  - psql -c "ALTER USER travis WITH PASSWORD 'travis';"
+  - cp config/travis.exs config/test.exs
+  - MIX_ENV=test mix ecto.create
+  - MIX_ENV=test mix ecto.migrate
