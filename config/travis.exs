@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :test_api, TestApi.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "",
   database: "test_api_dev",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
